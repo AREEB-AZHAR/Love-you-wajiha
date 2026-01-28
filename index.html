@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Changed to Black */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Container for the heart */
+        .heart-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            z-index: 2;
+            transition: opacity 0.5s ease;
+        }
+
+        .heart-container:hover .heart {
+            transform: scale(1.1) rotate(45deg);
+        }
+
+        /* The Heart Shape using CSS */
+        .heart {
+            background-color: #ff3860;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            left: 25px;
+            transform: rotate(45deg);
+            animation: heartbeat 1.2s infinite;
+            box-shadow: 0 0 20px rgba(255, 56, 96, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            background-color: #ff3860;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -25px;
+        }
+
+        /* Realistic Heartbeat Animation */
+        @keyframes heartbeat {
+            0% { transform: rotate(45deg) scale(0.8); }
+            5% { transform: rotate(45deg) scale(0.9); }
+            10% { transform: rotate(45deg) scale(0.8); }
+            15% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(0.8); }
+            100% { transform: rotate(45deg) scale(0.8); }
+        }
+
+        /* Explosion/Opening effect */
+        .heart-container.open .heart {
+            animation: expandAndFade 0.8s forwards;
+        }
+
+        @keyframes expandAndFade {
+            0% { transform: rotate(45deg) scale(1); opacity: 1; }
+            100% { transform: rotate(45deg) scale(30); opacity: 0; }
+        }
+
+        /* Message Container */
+        .message-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            opacity: 0;
+            display: none; /* Hidden initially */
+            padding: 20px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .message-container.visible {
+            display: block;
+            animation: fadeIn 1s forwards;
+            z-index: 10; /* Ensure text is above background hearts */
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .typewriter-text {
+            font-size: 1.1rem; /* Slightly smaller to fit more text */
+            line-height: 1.6;
+            color: #ffffff; /* Changed to White */
+            white-space: pre-wrap; /* Preserves whitespace/formatting */
+            text-shadow: 0 0 5px rgba(255, 56, 96, 0.5); /* Slight glow for readability */
+        }
+
+        /* Bold highlighting for emphasis */
+        .highlight {
+            color: #d6336c;
+            font-weight: bold;
+        }
+
+        /* Emoji Animation at the end */
+        .end-emoji {
+            font-size: 3rem;
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .end-emoji.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Background Floating Hearts */
+        .floating-heart {
+            position: fixed;
+            bottom: -50px;
+            color: #ff3860; /* Heart color */
+            font-size: 20px;
+            pointer-events: none; /* Don't interfere with clicks */
+            z-index: 1; /* Behind text */
+            animation: floatUp linear forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- The Beating Heart -->
+    <div class="heart-container" id="heartButton">
+        <div class="heart"></div>
+    </div>
+
+    <!-- The Hidden Message -->
+    <div class="message-container" id="messageBox">
+        <div class="typewriter-text" id="textTarget"></div>
+        <div class="end-emoji" id="emojiTarget">😘 🤗 ❤️</div>
+    </div>
+
+    <script>
+        // Configuration
+        // Note: \n creates a new line. I've added extra \n for spacing between poems.
+        const message = "Happy Birthday, My Love! 🎉\n\nHere are the words my heart wants to say to you today...\n\n------------------\n\nKhuda se maangi thi jo dua, woh qubool ho gayi,\nTum mile to jaise zindagi mukammal ho gayi.\nSalgirah ka din mubarak ho meri jaan,\nTumhare aane se meri duniya badal gayi.\n\n------------------\n\nTumhari hansi se hi mera din shuru hota hai,\nTum khush raho bas yahi dil chahta hai.\nHar khushi kadmo mein ho tumhare aaj,\nYeh dil tumhe janam din mubarak kehta hai.\n\n------------------\n\nMeri dhadkano ka raaz ho tum,\nMeri zindagi ka sabse khoobsurat saaz ho tum.\nJanam din bohat mubarak ho,\nMere liye to mera aaj aur kal ho tum.\n\n------------------\n\nPhoolon ki tarah muskuraye zindagi tumhari,\nKhushiyon se bhar jaye jholi tumhari.\nDua hai rab se bas itni meri,\nKabhi aansu na dekhe yeh aankhein tumhari.\n\n------------------\n\nI love you endlessly.";
+        
+        const typingSpeed = 30; // Faster speed for longer text (ms per char)
+
+        // Elements
+        const heartBtn = document.getElementById('heartButton');
+        const messageBox = document.getElementById('messageBox');
+        const textTarget = document.getElementById('textTarget');
+        const emojiTarget = document.getElementById('emojiTarget');
+
+        // State
+        let isOpen = false;
+
+        // Event Listener
+        heartBtn.addEventListener('click', () => {
+            if (isOpen) return; // Prevent double clicking
+            isOpen = true;
+
+            // 1. Animate Heart "Exploding"
+            heartBtn.classList.add('open');
+
+            // 2. Wait for explosion, then hide heart and show message box
+            setTimeout(() => {
+                heartBtn.style.display = 'none'; // Remove heart from flow
+                messageBox.classList.add('visible');
+                
+                // Allow body to scroll if text is long
+                document.body.style.alignItems = 'flex-start'; 
+                document.body.style.paddingTop = '50px';
+
+                startTyping();
+                startFloatingHearts();
+            }, 600);
+        });
+
+        function startTyping() {
+            let i = 0;
+            textTarget.innerHTML = ""; // Clear initial text
+
+            function typeWriter() {
+                if (i < message.length) {
+                    const char = message.charAt(i);
+                    
+                    // Handle simple formatting
+                    if (char === '\n') {
+                        textTarget.innerHTML += '<br>';
+                    } else {
+                        textTarget.innerHTML += char;
+                    }
+                    
+                    // Auto-scroll to bottom as it types
+                    window.scrollTo(0, document.body.scrollHeight);
+
+                    i++;
+                    setTimeout(typeWriter, typingSpeed);
+                } else {
+                    // Typing finished, show emojis
+                    showEndEmojis();
+                }
+            }
+            typeWriter();
+        }
+
+        function showEndEmojis() {
+            emojiTarget.classList.add('show');
+            // Final scroll to ensure emojis are seen
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function startFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '❤️';
+                
+                // Random positioning and size
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's'; // 3 to 6 seconds
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px'; // 10px to 30px
+                
+                document.body.appendChild(heart);
+
+                // Remove heart after animation finishes to prevent memory leaks
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 300); // Create a new heart every 300ms
+        }
+    </script>
+</body>
+</html>
+
+
