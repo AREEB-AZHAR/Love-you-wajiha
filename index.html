@@ -8,7 +8,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #000000; /* Changed to Black */
+            background-color: #000000; /* Black background */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -97,8 +97,8 @@
             opacity: 0;
             display: none; /* Hidden initially */
             padding: 20px;
+            padding-bottom: 100px; /* Extra space at bottom */
             margin-top: 50px;
-            margin-bottom: 50px;
         }
 
         .message-container.visible {
@@ -112,17 +112,11 @@
         }
 
         .typewriter-text {
-            font-size: 1.1rem; /* Slightly smaller to fit more text */
+            font-size: 1.1rem; 
             line-height: 1.6;
-            color: #ffffff; /* Changed to White */
-            white-space: pre-wrap; /* Preserves whitespace/formatting */
-            text-shadow: 0 0 5px rgba(255, 56, 96, 0.5); /* Slight glow for readability */
-        }
-
-        /* Bold highlighting for emphasis */
-        .highlight {
-            color: #d6336c;
-            font-weight: bold;
+            color: #ffffff; /* White text */
+            white-space: pre-wrap; 
+            text-shadow: 0 0 5px rgba(255, 56, 96, 0.5); 
         }
 
         /* Emoji Animation at the end */
@@ -179,10 +173,10 @@
 
     <script>
         // Configuration
-        // Note: \n creates a new line. I've added extra \n for spacing between poems.
-        const message = "Happy Birthday, My Love! 🎉\n\nHere are the words my heart wants to say to you today...\n\n------------------\n\nKhuda se maangi thi jo dua, woh qubool ho gayi,\nTum mile to jaise zindagi mukammal ho gayi.\nSalgirah ka din mubarak ho meri jaan,\nTumhare aane se meri duniya badal gayi.\n\n------------------\n\nTumhari hansi se hi mera din shuru hota hai,\nTum khush raho bas yahi dil chahta hai.\nHar khushi kadmo mein ho tumhare aaj,\nYeh dil tumhe janam din mubarak kehta hai.\n\n------------------\n\nMeri dhadkano ka raaz ho tum,\nMeri zindagi ka sabse khoobsurat saaz ho tum.\nJanam din bohat mubarak ho,\nMere liye to mera aaj aur kal ho tum.\n\n------------------\n\nPhoolon ki tarah muskuraye zindagi tumhari,\nKhushiyon se bhar jaye jholi tumhari.\nDua hai rab se bas itni meri,\nKabhi aansu na dekhe yeh aankhein tumhari.\n\n------------------\n\nI love you endlessly.";
+        // Note: Using Unicode hearts for colors
+        const message = "Happy Birthday, My Love! 🎉\n\nHere are the words my heart wants to say to you today...\n\n❤️ 🧡 💛 💚 💙 💜\n\nKhuda se maangi thi jo dua, woh qubool ho gayi,\nTum mile to jaise zindagi mukammal ho gayi.\nSalgirah ka din mubarak ho meri jaan,\nTumhare aane se meri duniya badal gayi.\n\n❤️ 🧡 💛 💚 💙 💜\n\nTumhari hansi se hi mera din shuru hota hai,\nTum khush raho bas yahi dil chahta hai.\nHar khushi kadmo mein ho tumhare aaj,\nYeh dil tumhe janam din mubarak kehta hai.\n\n❤️ 🧡 💛 💚 💙 💜\n\nMeri dhadkano ka raaz ho tum,\nMeri zindagi ka sabse khoobsurat saaz ho tum.\nJanam din bohat mubarak ho,\nMere liye to mera aaj aur kal ho tum.\n\n❤️ 🧡 💛 💚 💙 💜\n\nPhoolon ki tarah muskuraye zindagi tumhari,\nKhushiyon se bhar jaye jholi tumhari.\nDua hai rab se bas itni meri,\nKabhi aansu na dekhe yeh aankhein tumhari.\n\n❤️ 🧡 💛 💚 💙 💜\n\nI love you for forever💕.";
         
-        const typingSpeed = 30; // Faster speed for longer text (ms per char)
+        const typingSpeed = 30; // ms per char
 
         // Elements
         const heartBtn = document.getElementById('heartButton');
@@ -216,12 +210,15 @@
         });
 
         function startTyping() {
+            // Using spread operator [...] converts string to array of characters, 
+            // which handles Emojis (like ❤️) correctly as single items.
+            const chars = [...message]; 
             let i = 0;
             textTarget.innerHTML = ""; // Clear initial text
 
             function typeWriter() {
-                if (i < message.length) {
-                    const char = message.charAt(i);
+                if (i < chars.length) {
+                    const char = chars[i];
                     
                     // Handle simple formatting
                     if (char === '\n') {
@@ -230,9 +227,6 @@
                         textTarget.innerHTML += char;
                     }
                     
-                    // Auto-scroll to bottom as it types
-                    window.scrollTo(0, document.body.scrollHeight);
-
                     i++;
                     setTimeout(typeWriter, typingSpeed);
                 } else {
@@ -245,8 +239,6 @@
 
         function showEndEmojis() {
             emojiTarget.classList.add('show');
-            // Final scroll to ensure emojis are seen
-            window.scrollTo(0, document.body.scrollHeight);
         }
 
         function startFloatingHearts() {
@@ -271,5 +263,4 @@
     </script>
 </body>
 </html>
-
 
